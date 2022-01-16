@@ -6,7 +6,7 @@ import 'package:hag_connect_app/views/splash_screen.dart';
 main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: const HomeView(),
+    home: const SplashScreen(),
     theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xffF8F9E7),
         appBarTheme: AppBarTheme(

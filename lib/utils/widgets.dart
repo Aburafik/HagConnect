@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hag_connect_app/utils/app_colors.dart';
 import 'package:hag_connect_app/views/agric_support_views/agric_home_view.dart';
@@ -84,7 +85,33 @@ displayGeneralSupport() {
 displayCallSupport() {
   return Expanded(
     child: Container(
-      color: Colors.grey,
+      child: Column(
+        children: [
+          Text("Reach all departments via phone"),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Card(
+                elevation: 1,
+                child: ListTile(
+                  title: Text("Dep. name"),
+                  leading: Icon(
+                    Icons.support_agent,
+                    color: generalPrimaryColor,
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      FontAwesomeIcons.phone,
+                      color: generalPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     ),
   );
 }
@@ -92,8 +119,10 @@ displayCallSupport() {
 reUseableTitleTextformField() {
   return TextField(
     decoration: InputDecoration(
+        filled: true,
+        fillColor: whiteColor,
         labelText: "Message Title",
-        contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
   );
 }
@@ -103,7 +132,9 @@ reUseableMainMesageTextformField() {
     maxLines: 6,
     decoration: InputDecoration(
         labelText: "Message Title",
-        contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        filled: true,
+        fillColor: whiteColor,
+        contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
   );
 }
@@ -175,10 +206,62 @@ class HomeDrawer extends StatelessWidget {
             Expanded(
               child: Container(
                 color: whiteColor,
+                child: Column(
+                  children: [
+                    DrawerItems(
+                      title: "Home",
+                      icon: Icons.home,
+                      ontap: () {},
+                    ),
+                       DrawerItems(
+                      title: "History",
+                      icon: Icons.history,
+                      ontap: () {},
+                    ),
+                       DrawerItems(
+                      title: "Email",
+                      icon:Icons.email,
+                      ontap: () {},
+                    ), DrawerItems(
+                      title: "Disclaimer",
+                      icon: Icons.notifications_none_outlined,
+                      ontap: () {},
+                    ), DrawerItems(
+                      title: "CopyRight",
+                      icon: Icons.copyright,
+                      ontap: () {},
+                    ),
+                    DrawerItems(
+                      title: "FAQ",
+                      icon: FontAwesomeIcons.question,
+                      ontap: () {},
+                    )
+                  ],
+                ),
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DrawerItems extends StatelessWidget {
+  String? title;
+  IconData? icon;
+  Function()? ontap;
+
+  DrawerItems({Key? key, this.title, this.icon, this.ontap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: ontap,
+      leading: Icon(icon, color: generalSecondaryColor),
+      title: Text(
+        title!,
+        style: TextStyle(fontSize: 18, color: Colors.black.withOpacity(0.7)),
       ),
     );
   }
@@ -213,14 +296,14 @@ class ShareDialyMessage extends StatelessWidget {
         child: Column(
           children: [
             Text("Share", style: shareStyle),
-            Text(
+            const Text(
                 "Every day we share best best farming practices to help you keep you farm in a helath conditon, share it with a friend by clicking the share now button",
                 style: TextStyle(
                   height: 1.5,
                 )),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(20),
@@ -231,7 +314,7 @@ class ShareDialyMessage extends StatelessWidget {
                     "Today",
                     style: shareStyle,
                   ),
-                  Text(
+                  const Text(
                     """Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborumnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam""",
                     style: TextStyle(
                       height: 1.5,
@@ -268,7 +351,13 @@ class ShareDialyMessage extends StatelessWidget {
                     color: whiteColor,
                     title: "Cancel"),
                 actionButtons(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FlutterShare.share(
+                        title: 'Example share',
+                        text: 'Example share text',
+                        linkUrl: 'https://flutter.dev/',
+                        chooserTitle: 'Farming Tips of the Day');
+                  },
                   title: "Share Now",
                 ),
               ],
@@ -281,13 +370,130 @@ class ShareDialyMessage extends StatelessWidget {
   }
 }
 
-actionButtons({Function()? onPressed, String? title, color}) {
+actionButtons({
+  onPressed,
+  String? title,
+  color,
+}) {
   return MaterialButton(
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: generalPrimaryColor),
+    ),
     onPressed: onPressed,
     color: color == null ? generalPrimaryColor : color,
     child: SizedBox(
       width: 100,
-      child: Center(child: Text(title!)),
+      child: Center(
+          child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text(title!),
+      )),
+    ),
+  );
+}
+
+//Health support widgets
+swichHealthWidget(widgetSelected) {
+  switch (widgetSelected) {
+    case "general":
+      return displayHealth();
+    case "ambulance":
+      return displayEmergencySupport();
+    case "corona updates":
+      return displayCovidReport();
+
+    default:
+      return displayHealth();
+  }
+}
+
+displayHealth() {
+  return Expanded(
+    child: Container(
+      color: const Color(0xffF5F5F5),
+      padding: const EdgeInsets.all(10),
+      child: ListView(
+        children: [
+          Text(
+            "General Helath Support",
+            style: TextStyle(fontSize: 20, color: categoryIconColor),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child:
+                Text("What health challenge are you facing in your locallity?"),
+          ),
+          reUseableTitleTextformField(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: reUseableMainMesageTextformField(),
+          ),
+          reUseableButton(onPressed: () {}, title: "Send")
+        ],
+      ),
+    ),
+  );
+}
+
+displayCovidReport() {
+  return Expanded(
+    child: Container(
+      color: const Color(0xffF5F5F5),
+      padding: const EdgeInsets.all(10),
+      child: ListView(
+        children: [
+          Text(
+            "Report a Covid-Case",
+            style: TextStyle(fontSize: 20, color: categoryIconColor),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child:
+                Text("What health challenge are you facing in your locallity?"),
+          ),
+          reUseableTitleTextformField(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: reUseableMainMesageTextformField(),
+          ),
+          reUseableButton(onPressed: () {}, title: "Send")
+        ],
+      ),
+    ),
+  );
+}
+
+displayEmergencySupport() {
+  return Expanded(
+    child: Container(
+      child: Column(
+        children: [
+          Text("Reach all GHS departments via phone"),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Card(
+                elevation: 1,
+                child: ListTile(
+                  title: Text("Dep. name"),
+                  subtitle: Text("0555144789"),
+                  leading: Icon(
+                    Icons.support_agent,
+                    color: generalPrimaryColor,
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      FontAwesomeIcons.phone,
+                      color: generalPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     ),
   );
 }
