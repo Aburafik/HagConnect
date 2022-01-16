@@ -7,13 +7,11 @@ A new Flutter project.
 This project is a starting point for a Flutter application.
 hag_connect_app is a multipurpose application that connect farmers to agric experts to help improve their farm production. the app also comes with a health consultance feature which help users to report issues affecting them and their surroundings
 
-<p align="left"> <img src="https://media.giphy.com/media/guZmJxRIohHuQbVS5d/giphy.gif" alt="aburafik" width="200" />
+<p align="left"> <img src="https://media.giphy.com/media/MxvSifCLaHCaIxKivh/giphy.gif" alt="aburafik" width="200" />
 
-<img src="https://media.giphy.com/media/0EaYVRrVv1S6y7febl/giphy.gif" alt="aburafik" width="200" />
+<img src="https://media.giphy.com/media/vjH42tQkhvZmfpFTnt/giphy.gif" alt="aburafik" width="200" />
 
- <img src="https://media.giphy.com/media/guZmJxRIohHuQbVS5d/giphy.gif" alt="aburafik" width="200" />
 </p>
-
 
 A few resources to get you started if this is your first Flutter project:
 
